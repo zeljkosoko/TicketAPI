@@ -29,4 +29,6 @@
         Opis
         DatumKreiranja
         *ostala polja su null
+
+        THE END ----------------
     

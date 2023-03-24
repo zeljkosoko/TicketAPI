@@ -1,21 +1,19 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using System.Text;
 using TicketAPI.Models;
 
-namespace TicketAPI.Models
+namespace TicketAPI.UnitOfWork
 {
-    public class TicketDbContext: DbContext
+    public class TicketDbContext : DbContext
     {
         public TicketDbContext()
         {
         }
 
         public TicketDbContext(DbContextOptions<TicketDbContext> options)
-            :base(options)
+            : base(options)
         {
         }
 
@@ -33,9 +31,9 @@ namespace TicketAPI.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //unique constraint for 2 fields
-            modelBuilder.Entity<AggClientPlaceAddress>()
-                .HasIndex(agg1 => new { agg1.CodePlaceId, agg1.CodeAddressId })
-                .IsUnique(true);
+            //modelBuilder.Entity<AggClientPlaceAddress>()
+            //    .HasIndex(agg1 => new { agg1.CodePlaceId, agg1.CodeAddressId })
+            //    .IsUnique(true);
 
             #region old code
             //modelBuilder.Entity<CodeClient>().ToTable("CodeClient");

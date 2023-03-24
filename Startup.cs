@@ -4,6 +4,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
+using TicketAPI.UnitOfWork;
+using TicketAPI.DIservices;
 using TicketAPI.Models;
 
 namespace TicketAPI
@@ -23,6 +25,9 @@ namespace TicketAPI
             services.AddDbContext<TicketDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
+
+            //Application service
+            services.AddSingleton<IEntitiesServices, EntitiesServices>();
 
             services.AddControllers();
         }

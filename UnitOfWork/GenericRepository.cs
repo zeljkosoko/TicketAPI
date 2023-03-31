@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using TicketAPI.Models;
 
 namespace TicketAPI.UnitOfWork
 {
@@ -11,27 +12,67 @@ namespace TicketAPI.UnitOfWork
     //It creates dbSet for some entity that can be used to query and save instance of that entity
     public class GenericRepository<Entity> : IGenericRepository<Entity> where Entity : class
     {
-        private readonly TicketDbContext dbContext; //one dbContext 
-        private readonly DbSet<Entity> dbSetEntity = null; //dbSet holds new dbSet that is created by dbContext
-        public GenericRepository(TicketDbContext context)
+        internal TicketDbContext dbContext; //one dbContext 
+        internal DbSet<Entity> dbSetEntity = null; //dbSet holds new dbSet that is created by dbContext
+        public GenericRepository(TicketDbContext contextFromUnitOfWork)
         {
-            dbContext = context;
+            dbContext = contextFromUnitOfWork;
             dbSetEntity = dbContext.Set<Entity>(); //creates DbSet<CodeClient>..
         }
         public bool Exists(Expression<Func<Entity, bool>> queryWithName)
         {
-            IQueryable<Entity> filteredDbSet = dbSetEntity;
-
-            return filteredDbSet.Where(queryWithName).Any();
+            try
+            {
+                IQueryable<Entity> filteredDbSet = dbSetEntity;
+                return filteredDbSet.Where(queryWithName).Any();
+            }
+            catch (ArgumentNullException)
+            {
+                throw new ArgumentNullException("Ne postoji takav entitet");
+            }
+            catch (InvalidOperationException)
+            {
+                throw new InvalidOperationException("Vise entiteta sa istim imenom");
+            }
+            catch (Exception)
+            {
+                throw new Exception("Opsta greska- nema entiteta");
+            }
         }
         public Entity GetSingle(Expression<Func<Entity, bool>> queryWithName)
         {
-            return dbSetEntity.Single(queryWithName);
+            try
+            {
+                return dbSetEntity.Single(queryWithName);
+            }
+            catch (ArgumentNullException)
+            {
+                throw new ArgumentNullException("Ne postoji takav entitet");
+            }
+            catch (InvalidOperationException)
+            {
+                throw new InvalidOperationException("Vise entiteta sa istim imenom");
+            }
+            catch (Exception)
+            {
+                throw new Exception("Opsta greska- nema entiteta");
+            }
         }
         public void SaveToDB(Entity entity)
         {
-            dbSetEntity.Add(entity);
-            dbContext.SaveChanges();
+            try
+            {
+                dbSetEntity.Add(entity);
+                dbContext.SaveChanges();
+            }
+            catch (DbUpdateException)
+            {
+                throw new DbUpdateException("Entitet nije sacuvan u bazi, servisu nisu prosledjeni ispravni podaci.");
+            }
+            catch (Exception)
+            {
+                throw new Exception("Opsta greska- Entitet nije sacuvan u bazi.");
+            }
         }
     }
 }

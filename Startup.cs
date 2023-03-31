@@ -6,7 +6,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using TicketAPI.UnitOfWork;
 using TicketAPI.DIservices;
-using TicketAPI.Models;
 
 namespace TicketAPI
 {
@@ -22,12 +21,11 @@ namespace TicketAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<TicketDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
-
             //Application service
-            services.AddSingleton<IEntitiesServices, EntitiesServices>();
+            //services.AddDbContext<TicketDbContext>(options =>
+            //    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddTransient<IEntitiesServices, EntitiesServices>();
 
             services.AddControllers();
         }

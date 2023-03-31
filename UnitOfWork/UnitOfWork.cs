@@ -1,15 +1,21 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using TicketAPI.Models;
-
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 namespace TicketAPI.UnitOfWork
 {
-    //This class exposes the properties for all repositories those can use shared dbContext
+    //This class instantiates dbContext so implements IDisposable
+    //It has generic repositories which use shared dbContext 
     public class UnitOfWork : IDisposable
     {
-        private readonly TicketDbContext dbContext = new TicketDbContext();
-
+        private readonly TicketDbContext dbContext = new TicketDbContext(new DbContextOptionsBuilder<TicketDbContext>()
+            .UseSqlServer("Data Source=DESKTOP-SU9DAH4; Initial Catalog=ZsTicketApp;Integrated Security=True;").Options);
+        
+        #region Generic Repositories - private fields
         private GenericRepository<CodeClient> clientRepository;
         private GenericRepository<CodePlace> placeRepository;
         private GenericRepository<CodeAddress> addressRepository;
@@ -17,9 +23,9 @@ namespace TicketAPI.UnitOfWork
         private GenericRepository<AggUserClientPlaceAddress> ucpaRepository;
         private GenericRepository<CodeUser> userRepository;
         private GenericRepository<ActTicket> ticketRepository;
+        #endregion
 
-        private bool disposed = false;
-
+        #region Each GenericRepositories (public properties) use dbContext
         public GenericRepository<CodeClient> ClientRepository
         {
             get
@@ -32,7 +38,6 @@ namespace TicketAPI.UnitOfWork
                 return clientRepository;
             }
         }
-
         public GenericRepository<CodePlace> PlaceRepository
         {
             get
@@ -45,7 +50,6 @@ namespace TicketAPI.UnitOfWork
                 return placeRepository;
             }
         }
-
         public GenericRepository<CodeAddress> AddressRepository
         {
             get
@@ -58,7 +62,6 @@ namespace TicketAPI.UnitOfWork
                 return addressRepository;
             }
         }
-
         public GenericRepository<AggClientPlaceAddress> CPARepository
         {
             get
@@ -71,7 +74,6 @@ namespace TicketAPI.UnitOfWork
                 return cpaRepository;
             }
         }
-
         public GenericRepository<AggUserClientPlaceAddress> UCPARepository
         {
             get
@@ -108,27 +110,32 @@ namespace TicketAPI.UnitOfWork
                 return ticketRepository;
             }
         }
+        #endregion
+
         //public void Save()
         //{
         //    dbContext.SaveChanges();
         //}
+
+        private bool disposed = false;
+
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposed)
+            if (!this.disposed)
             {
                 if (disposing)
                 {
                     dbContext.Dispose();
                 }
-
-                disposed = true;
             }
+            this.disposed = true;
         }
+
         public void Dispose()
         {
-            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-            Dispose(disposing: true);
+            Dispose(true);
             GC.SuppressFinalize(this);
         }
+
     }
 }

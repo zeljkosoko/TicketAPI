@@ -10,11 +10,11 @@ namespace TicketAPI.UnitOfWork
 {
     //This class instantiates dbContext so implements IDisposable
     //It has generic repositories which use shared dbContext 
-    public class UnitOfWork : IDisposable
+    public class UnitOfWork 
     {
         private readonly TicketDbContext dbContext = new TicketDbContext(new DbContextOptionsBuilder<TicketDbContext>()
-            .UseSqlServer("Data Source=DESKTOP-SU9DAH4; Initial Catalog=ZsTicketApp;Integrated Security=True;").Options);
-        
+            .UseSqlServer("Server=192.168.0.28,1433;Database=ZsTicketApp;User Id=zeljko;Password=Progr@mer2023;MultipleActiveResultSets=true;").Options);
+        //Data Source=DESKTOP-SU9DAH4; Initial Catalog=ZsTicketApp;Integrated Security=True;User Id=zeljko; Password=Progr@mer2023;
         #region Generic Repositories - private fields
         private GenericRepository<CodeClient> clientRepository;
         private GenericRepository<CodePlace> placeRepository;
@@ -117,25 +117,25 @@ namespace TicketAPI.UnitOfWork
         //    dbContext.SaveChanges();
         //}
 
-        private bool disposed = false;
+        //private bool disposed = false;
 
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!this.disposed)
-            {
-                if (disposing)
-                {
-                    dbContext.Dispose();
-                }
-            }
-            this.disposed = true;
-        }
+        //protected virtual void Dispose(bool disposing)
+        //{
+        //    if (!this.disposed)
+        //    {
+        //        if (disposing)
+        //        {
+        //            dbContext.Dispose();
+        //        }
+        //    }
+        //    this.disposed = true;
+        //}
 
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
+        //public void Dispose()
+        //{
+        //    Dispose(true);
+        //    GC.SuppressFinalize(this);
+        //}
 
     }
 }

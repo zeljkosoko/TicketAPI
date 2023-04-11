@@ -36,7 +36,7 @@ namespace TicketAPI.UnitOfWork
             }
             catch (Exception)
             {
-                throw new Exception("Opsta greska- nema entiteta");
+                throw new Exception("Opsta greska- ne postoji entitet.");
             }
         }
         public Entity GetSingle(Expression<Func<Entity, bool>> queryWithName)
@@ -55,7 +55,7 @@ namespace TicketAPI.UnitOfWork
             }
             catch (Exception)
             {
-                throw new Exception("Opsta greska- nema entiteta");
+                throw new Exception("Opsta greska- nema nijedan entitet.");
             }
         }
         public void SaveToDB(Entity entity)

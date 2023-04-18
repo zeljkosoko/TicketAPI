@@ -23,6 +23,29 @@ namespace TicketAPI.Controllers
             services = _services;
         }
 
+        /// <summary>
+        /// Creates ticket from a client to the central db
+        /// </summary>
+        /// <param name="ticketVM"></param>
+        /// <returns>A newly created one.</returns>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST /ActTickets
+        ///     {
+        ///        "CodeClientName": "Pakograf",
+        ///        "CodePlaceName" : "Nova Pazova",
+        ///        "CodeAddressName" : "Miloša Obilica 33",
+        ///        "CodeUserCreaterFirstname" : "Nemanja",
+        ///        "CodeUserCreaterLastName" : "Vujinic",
+        ///        "CodeClientIpAddress" : "109.108.107.106",
+        ///        "ActTicketClientTicketId" : 1216,
+        ///        "ActTicketClientTicketDocNo" : "T23-00009",
+        ///        "ActTicketTitle" :"Implementing pattern 3",
+        ///        "ActTicketDescription" : "DI with Unit of Work 1",
+        ///        "ActTicketCreatedDate": "2023-03-30"
+        ///     }
+        /// </remarks>
         [HttpPost]
         public string ActTickets(TicketVM ticketVM)
         {

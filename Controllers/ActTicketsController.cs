@@ -12,8 +12,9 @@ using TicketAPI.DIservices;
 
 namespace TicketAPI.Controllers
 {
-    [Route("[controller]")]
     [ApiController]
+    //[Route("[controller]")]
+    [Route("/")]
     public class ActTicketsController : ControllerBase
     {
         private readonly IEntitiesServices services = null;
@@ -30,7 +31,6 @@ namespace TicketAPI.Controllers
         /// <returns>A newly created one.</returns>
         /// <remarks>
         /// Sample request:
-        ///
         ///     POST /ActTickets
         ///     {
         ///        "CodeClientName": "Pakograf",
@@ -87,6 +87,7 @@ namespace TicketAPI.Controllers
                     Description = ticketVM.ActTicketDescription,
                     CreatedDate = ticketVM.ActTicketCreatedDate,
                 };
+
                 services.SaveTicket(newActTicket);
 
                 return "Created.";

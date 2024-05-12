@@ -9,14 +9,14 @@ namespace TicketAPI.UnitOfWork
             : base(options)
         { }
 
-        public DbSet<CodeClient> CodeClient { get; set; }
-        public DbSet<CodePlace> CodePlace { get; set; }
-        public DbSet<CodeAddress> CodeAddress { get; set; }
-        public DbSet<AggClientPlaceAddress> AggClientPlaceAddress { get; set; }
-        public DbSet<AggUserClientPlaceAddress> AggUserClientPlaceAddress { get; set; }
-        public DbSet<CodeUser> CodeUser { get; set; }
-        public DbSet<ActTicket> ActTicket { get; set; }
-        public DbSet<CodeProblemType> CodeProblemType { get; set; }
+        //public DbSet<CodeClient> CodeClient { get; set; }
+        //public DbSet<CodePlace> CodePlace { get; set; }
+        //public DbSet<CodeAddress> CodeAddress { get; set; }
+        //public DbSet<AggClientPlaceAddress> AggClientPlaceAddress { get; set; }
+        //public DbSet<AggUserClientPlaceAddress> AggUserClientPlaceAddress { get; set; }
+        //public DbSet<CodeUser> CodeUser { get; set; }
+        //public DbSet<ActTicket> ActTicket { get; set; }
+        //public DbSet<CodeProblemType> CodeProblemType { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

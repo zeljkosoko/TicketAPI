@@ -6,14 +6,25 @@ using TicketAPI.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore.Design;
+
 namespace TicketAPI.UnitOfWork
 {
     //This class instantiates dbContext so implements IDisposable
     //It has generic repositories which use shared dbContext 
-    public class UnitOfWork 
+    public class UnitOfWork: IDesignTimeDbContextFactory<TicketDbContext>
     {
-        private readonly TicketDbContext dbContext = new TicketDbContext(new DbContextOptionsBuilder<TicketDbContext>()
-            .UseSqlServer("Server=192.168.0.28,1433;Database=ZsTicketApp;User Id=zeljko;Password=Progr@mer2023;MultipleActiveResultSets=true;").Options);
+        private TicketDbContext dbContext;
+        //= new TicketDbContext(new DbContextOptionsBuilder<TicketDbContext>().UseSqlServer("Server=192.168.0.28,1433;Database=ZsTicketApp;User Id=zeljko;Password=Progr@mer2023;MultipleActiveResultSets=true;").Options);
+        
+        //Implements IDbContextFactory method >>
+        public TicketDbContext CreateDbContext(string[] args)
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<TicketDbContext>();
+            optionsBuilder.UseSqlServer("Server=192.168.0.28,1433;Database=ZsTicketApp;User Id=zeljko;Password=Progr@mer2023;MultipleActiveResultSets=true;");
+            dbContext = new TicketDbContext(optionsBuilder.Options);
+            return dbContext;
+        }
         //Data Source=DESKTOP-SU9DAH4; Initial Catalog=ZsTicketApp;Integrated Security=True;User Id=zeljko; Password=Progr@mer2023;
         #region Generic Repositories - private fields
         private GenericRepository<CodeClient> clientRepository;
@@ -110,6 +121,8 @@ namespace TicketAPI.UnitOfWork
                 return ticketRepository;
             }
         }
+
+      
         #endregion
 
         //public void Save()

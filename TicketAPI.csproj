@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+	<AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
     <UserSecretsId>8aa77869-0cf0-43f2-9a2a-3c1946897bf6</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>.</DockerfileContext>
@@ -9,7 +10,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <WarningLevel>5</WarningLevel>
+    <WarningLevel>0</WarningLevel>
     <DocumentationFile></DocumentationFile>
   </PropertyGroup>
 
@@ -23,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.25" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.25">
       <PrivateAssets>all</PrivateAssets>
@@ -36,7 +38,7 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.11.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>

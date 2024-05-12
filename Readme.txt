@@ -37,6 +37,7 @@ Architecture:
 * TicketDbContext
 
 * UnitOfWork implements IDesignTimeContextFactory
-    - field: TicketDbContext, clientRepository,placeRepository,addressRepository...
-    - TicketDbContext field initialize within interface method CreateDbContext
-    - clientRepository field initialize with GenericRepository<Client> with shared TicketDbContext field.
+    - private fields: TicketDbContext, clientRepository,placeRepository,addressRepository...
+    > TicketDbContext field initialize within interface method CreateDbContext
+    > public properties: ClientRepository sets its field with GenericRepository<Client> and TicketDbContext.
+                         PlaceRepository sets its field with GenericRepository<Place>and TicketDbContext.
